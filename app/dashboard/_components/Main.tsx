@@ -31,9 +31,9 @@ const Main = ({ SearchInput }: any) => {
       </div>
 
       {/* Grid Layout */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3   h-screen">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3   h-screen">
         {dataStore.map((item:Template) => (
-          <div key={item.id} className="aspect-square bg-transparent bg-opacity-2 backdrop-blur-lg border border-spacing-96  max-w-sm shadow-md rounded-lg p-1    ">
+          <div key={item.id} className="aspect-square bg-transparent bg-opacity-2 backdrop-opacity-1  border border-white  max-w-sm shadow-md rounded-lg p-1    ">
             <Card
               name={item.name}
               description={item.description}
