@@ -1,143 +1,52 @@
-"use client";
-import React, { useState } from "react";
-import { FiSearch, FiPlus } from "react-icons/fi";
-import Card from "./Card";
-
+import React, { useEffect, useState } from 'react';
+import data from "@/app/(data)/Data";
+import Card from './Card';
 interface Template {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
+  id: number;                     // Unique identifier for the template
+  name: string;                   // Name of the template
+  description: string;            // Description of the template
+  category: string;               // Category of the template
+  icons: string;                  // Icons associated with the template
+  aiPrompts: string;              // AI prompts related to the template
+  image: string;                  // URL of the template image
+  slug: string;                   // URL-friendly identifier for the template
 }
-
-interface MainContentProps {
-  templates?: Template[]; // Make this optional
-}
-
-const MainContent: React.FC<MainContentProps> = ({ templates = [] }) => { // Provide a default empty array
-  const [newTemplate, setNewTemplate] = useState<Template>({
-    id: 0,
-    name: "hello world",
-    description: "hfsifsifsnfisghs",
-    image: "",
-  });
-  const [showForm, setShowForm] = useState(false);
-  const [templateList, setTemplateList] = useState<Template[]>([
-    {
-      id: 1,
-      name: "Template One",
-      description: "This is a description for Template One.",
-      image: "  https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyzxYUFM4iotg3_s_k5TrSfw6ULChkv_8_rQ&s", // Placeholder image
-    },
-    {
-      id: 2,
-      name: "Template Two",
-      description: "This is a description for Template Two.",
-      image: "  https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyzxYUFM4iotg3_s_k5TrSfw6ULChkv_8_rQ&s", // Placeholder image
-    },
-    {
-      id: 3,
-      name: "Template Three",
-      description: "This is a description for Template Three.",
-      image: "  https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyzxYUFM4iotg3_s_k5TrSfw6ULChkv_8_rQ&s", // Placeholder image
-    },
-    {
-      id: 4,
-      name: "Template Four",
-      description: "This is a description for Template Four.",
-      image: "  https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyzxYUFM4iotg3_s_k5TrSfw6ULChkv_8_rQ&s", // Placeholder image
-    },
-    {
-      id: 5,
-      name: "Template Five",
-      description: "This is a description for Template Five.",
-      image: "  https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyzxYUFM4iotg3_s_k5TrSfw6ULChkv_8_rQ&s", // Placeholder image
-    },
-  ]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setNewTemplate((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleAddTemplate = () => {
-    const newId = templateList.length ? templateList[templateList.length - 1].id + 1 : 1; // Increment ID
-    const templateToAdd = { ...newTemplate, id: newId };
-    setTemplateList((prev) => [...prev, templateToAdd]);
-    setNewTemplate({ id: 0, name: "", description: "", image: "" });
-    setShowForm(false); // Close the form after adding
-  };
+const Main = ({ SearchInput }: any) => {
+  const [dataStore,setdataStore] = useState(data);
+  useEffect(() => {
+    if(SearchInput){
+      const filteredData = data.filter((item:Template) => item.name.toLowerCase().includes(SearchInput.toLowerCase()));
+      setdataStore(filteredData);
+    } else {
+      setdataStore(data);
+    }
+  }, [SearchInput]);
 
   return (
-     <>
+    <div className="container mx-auto p-4">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <h1 className="text-5xl font-bold text-gray-900 mb-4">Explore Our Collection</h1>
+        <p className="text-xl text-gray-600">Discover AI prompts, tools, and more with just a click.</p>
+      </div>
 
-        {/* Browse AI Templates Section */}
-        <section>
-          <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
-            Browse AI Templates
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {templateList.length > 0 ? (
-              templateList.map((template) => (
-                <Card key={template.id} template={template} />
-              ))
-            ) : (
-              <p className="text-gray-600 dark:text-gray-300">No templates available.</p>
-            )}
+      {/* Grid Layout */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3   h-screen">
+        {dataStore.map((item:Template) => (
+          <div key={item.id} className="aspect-square bg-transparent bg-opacity-2 backdrop-blur-lg border border-spacing-96  max-w-sm shadow-md rounded-lg p-1    ">
+            <Card
+              name={item.name}
+              description={item.description}
+              category={item.category}
+              icons={item.icons}
+              aiPrompts={item.aiPrompts}
+              slug={item.slug}
+            />
           </div>
-        </section>
-
-        {/* Add New Template Button */}
-        <button 
-          className="fixed bottom-8 right-8 bg-indigo-600 hover:bg-indigo-700 text-white font-bold p-4 rounded-full shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1"
-          onClick={() => setShowForm((prev) => !prev)} // Toggle form visibility
-        >
-          <FiPlus className="w-6 h-6" />
-        </button>
-
-        {/* Add Template Form */}
-        {showForm && (
-          <div className="fixed bottom-20 right-8 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold mb-2">Add New Template</h3>
-            <input
-              type="text"
-              name="name"
-              value={newTemplate.name}
-              placeholder="Template Name"
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 mb-2 border rounded-lg"
-            />
-            <input
-              type="text"
-              name="description"
-              value={newTemplate.description}
-              placeholder="Template Description"
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 mb-2 border rounded-lg"
-            />
-            <input
-              type="text"
-              name="image"
-              value={newTemplate.image}
-              placeholder="Image URL"
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 mb-2 border rounded-lg"
-            />
-            <button
-              onClick={handleAddTemplate}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg transition duration-150 ease-in-out"
-            >
-              Add Template
-            </button>
-          </div>
-          
-        )}
-     </>
-
+        ))}
+      </div>
+    </div>
   );
-};
+}
 
-export default MainContent;
+export default Main;

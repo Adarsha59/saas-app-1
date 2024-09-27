@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
 import { FiHome, FiInfo, FiSettings, FiDollarSign } from "react-icons/fi";
-
 interface SidebarProps {
   toggleDarkMode: () => void;
   sidebarOpen: boolean;
@@ -9,12 +10,16 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ toggleDarkMode, sidebarOpen }) => {
   const navItems = [
-    { icon: FiHome, text: "Home" },
-    { icon: FiInfo, text: "About" },
-    { icon: FiSettings, text: "Settings" },
-    { icon: FiDollarSign, text: "Pricing" },
+    { icon: FiHome, text: "Home" ,path: "/dashboard"},
+    { icon: FiInfo, text: "About",path: "/dashboard/about" },
+    { icon: FiSettings, text: "Settings",path: "/dashboard/setting" },
+    { icon: FiDollarSign, text: "Pricing",path: "/dashboard/price" },
   ];
+const path = usePathname();
 
+  useEffect(() => {
+    console.log(path)
+  }, []);
   return (
     <aside
       className={`fixed left-0 top-0 z-40 h-screen w-64 transform transition-transform duration-300 ease-in-out ${
@@ -22,16 +27,22 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleDarkMode, sidebarOpen }) => {
       } lg:translate-x-0 bg-white dark:bg-gray-800 shadow-lg`}
     >
       <div className="flex flex-col h-full px-4 py-8">
-        <h2 className="text-2xl font-bold mb-8 text-center text-gray-800 dark:text-white">
-          Dashboard
-        </h2>
+       
+
+        <div className="flex justify-center mb-8 ">
+        <Image src="/logo.svg" alt="logo " width={80} height={80}>
+        </Image>
+        </div>
+
         <nav className="flex-1">
           <ul className="space-y-2">
             {navItems.map((item, index) => (
               <li key={index}>
                 <a
-                  href="#"
-                  className="flex items-center p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition duration-150 ease-in-out"
+                  href={item.path}
+                  className={`flex items-center p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition duration-150 ease-in-out
+                    ${path==item.path && `bg-lime-300 text-slate-50`}
+                    `}
                 >
                   <item.icon className="w-6 h-6 mr-3" />
                   {item.text}

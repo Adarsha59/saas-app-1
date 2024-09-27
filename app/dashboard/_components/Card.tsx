@@ -1,33 +1,42 @@
-"use client";
-import React from "react";
-
+import React, { useEffect } from 'react';
+import {push} from "next/navigation"
+import Link from 'next/link';
 interface CardProps {
-  template: {
-    id: number;
-    name: string;
-    description: string;
-    image: string;
-  };
+  name: string;
+  description: string;
+  category: string;
+  icons: string; // You might want to use an SVG or an icon library here for better visuals
+  aiPrompts: string;
+  slug: string;
 }
+const Card = ({ name, description, category, icons, aiPrompts,slug }: CardProps) => {
+  
 
-const Card: React.FC<CardProps> = ({ template }) => {
+
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1">
-      <img
-        src={template.image}
-        alt={template.name}
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-6">
-        <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white">
-          {template.name}
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
-          {template.description}
-        </p>
-        <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out">
-          Add Yourself
-        </button>
+    <div className="bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl m-4">
+      {/* Icon Section */}
+      <div className="flex justify-center items-center h-36 bg-gray-100 rounded-t-lg p-4">
+        <span className="text-6xl text-blue-500">{icons}</span>
+      </div>
+
+      {/* Content Section */}
+      <div className="px-6 py-4">
+        <h2 className="font-bold text-2xl text-gray-800 mb-2 text-center">{name}</h2>
+        <p className="text-gray-600 text-base mb-4 text-center">{description}</p>
+
+        {/* AI Prompts */}
+        <div className="text-gray-500 text-sm mb-4 text-center">
+          <p><strong>AI Prompts:</strong> {aiPrompts}</p>
+        </div>
+        {/* Category Button */}
+        <div className="flex justify-center">
+<Link href={`dashboard/${slug}`}><button  className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300">
+            {category}
+          </button></Link>
+
+          
+        </div>
       </div>
     </div>
   );

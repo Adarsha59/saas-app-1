@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiSearch, FiPlus } from "react-icons/fi";
 
-const Search = () => {
+const Search = ({onSearchInput}:any) => {
   return (
     <>
     
@@ -11,6 +11,7 @@ const Search = () => {
           <div className="relative">
             <input
               type="text"
+              onChange={(event)=>{onSearchInput(event.target.value)}}
               placeholder="Search for AI templates..."
               className="w-full px-6 py-4 text-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
