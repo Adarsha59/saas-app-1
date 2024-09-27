@@ -1,77 +1,55 @@
-"use client"
-import { useState } from 'react';
-import { FiHome, FiClock, FiCreditCard, FiSettings, FiMenu } from 'react-icons/fi';
-import { AiOutlineClose } from 'react-icons/ai';
-import Image from 'next/image';
+"use client";
+import React from "react";
+import { FiHome, FiInfo, FiSettings, FiDollarSign } from "react-icons/fi";
 
-const SideBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface SidebarProps {
+  toggleDarkMode: () => void;
+  sidebarOpen: boolean;
+}
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+const Sidebar: React.FC<SidebarProps> = ({ toggleDarkMode, sidebarOpen }) => {
+  const navItems = [
+    { icon: FiHome, text: "Home" },
+    { icon: FiInfo, text: "About" },
+    { icon: FiSettings, text: "Settings" },
+    { icon: FiDollarSign, text: "Pricing" },
+  ];
 
   return (
-    <>
-      {/* Hamburger Button for mobile */}
-      <button
-        className="lg:hidden p-4 text-2xl text-white  focus:outline-none"
-        onClick={toggleSidebar}
-      >
-        {isOpen ? <AiOutlineClose /> : <FiMenu />}
-      </button>
-
-      {/* Sidebar */}
-      <div
-        className={`fixed lg:static top-0 left-0 h-full w-64   p-6 transition-transform transform ${
-          isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
-      >
-        {/* Logo */}
-          <Image className="text-3xl font-bold mb-6" src="/logo.svg" alt='logo' width={50} height={50}>
-
-          </Image>
-
-        {/* Navigation Links */}
-        <nav>
-          <ul>
-            <li className="mb-4 flex items-center">
-              <FiHome className="mr-2" />
-              <a href="#" className="hover:text-gray-300">
-                Home
-              </a>
-            </li>
-            <li className="mb-4 flex items-center">
-              <FiClock className="mr-2" />
-              <a href="#" className="hover:text-gray-300">
-                History
-              </a>
-            </li>
-            <li className="mb-4 flex items-center">
-              <FiCreditCard className="mr-2" />
-              <a href="#" className="hover:text-gray-300">
-                Billing
-              </a>
-            </li>
-            <li className="mb-4 flex items-center">
-              <FiSettings className="mr-2" />
-              <a href="#" className="hover:text-gray-300">
-                Settings
-              </a>
-            </li>
+    <aside
+      className={`fixed left-0 top-0 z-40 h-screen w-64 transform transition-transform duration-300 ease-in-out ${
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      } lg:translate-x-0 bg-white dark:bg-gray-800 shadow-lg`}
+    >
+      <div className="flex flex-col h-full px-4 py-8">
+        <h2 className="text-2xl font-bold mb-8 text-center text-gray-800 dark:text-white">
+          Dashboard
+        </h2>
+        <nav className="flex-1">
+          <ul className="space-y-2">
+            {navItems.map((item, index) => (
+              <li key={index}>
+                <a
+                  href="#"
+                  className="flex items-center p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition duration-150 ease-in-out"
+                >
+                  <item.icon className="w-6 h-6 mr-3" />
+                  {item.text}
+                </a>
+              </li>
+            ))}
           </ul>
         </nav>
+        
+        <button
+          onClick={toggleDarkMode}
+          className="mt-auto p-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
+        >
+          Toggle Dark Mode
+        </button>
       </div>
-
-      {/* Overlay for mobile when sidebar is open */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 lg:hidden"
-          onClick={toggleSidebar}
-        ></div>
-      )}
-    </>
+    </aside>
   );
 };
 
-export default SideBar;
+export default Sidebar;
