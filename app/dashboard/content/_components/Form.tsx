@@ -3,6 +3,7 @@ import { Textarea } from "@/components/ui/textarea"; // Importing Shadcn UI Text
 import { Button } from "@/components/ui/button"; // Importing Shadcn UI Button
 import { Input } from "@/components/ui/input";
 import { LoaderPinwheel } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Form = ({ post, userInput, loading }: any) => {
   // State to manage input values
@@ -20,11 +21,11 @@ const Form = ({ post, userInput, loading }: any) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     userInput(formData);
-    console.log("Form submitted with data:", formData);
+    // console.log("Form submitted with data:", formData);
   };
 
   return (
-    <div className="w-full dark:bg-yellow-300 max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden  border border-gray-200">
+    <div className="w-full dark:bg-yellow-300 max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
       <div className="flex items-center justify-center min-h-28 bg-gradient-to-r from-blue-500 to-blue-300">
         {" "}
         {/* Adjusted height */}
@@ -77,8 +78,13 @@ const Form = ({ post, userInput, loading }: any) => {
             disabled={loading}
             className="w-full mt-4 bg-blue-600 text-white rounded-lg py-3 transition duration-200 transform hover:bg-blue-700 hover:scale-105 shadow-lg"
           >
-            {loading && <LoaderPinwheel className="spain-loading" />}
-            Generate
+            {loading && (
+              <div className="flex justify-center items-center space-x-2">
+                <LoaderPinwheel className="animate-spin h-6 w-6 text-white" />
+                <span>Generating...</span>
+              </div>
+            )}
+            {!loading && <span>Generate</span>}
           </Button>
         </form>
       </div>

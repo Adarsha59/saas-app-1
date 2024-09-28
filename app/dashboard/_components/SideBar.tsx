@@ -53,12 +53,12 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleDarkMode, sidebarOpen }) => {
           <br />
           <TotalUsage />
         </nav>
-        <button
+        {/* <button
           onClick={toggleDarkMode}
           className="mt-auto p-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
         >
           Toggle Dark Mode
-        </button>
+        </button> */}
       </div>
     </aside>
   );

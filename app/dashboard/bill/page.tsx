@@ -47,12 +47,16 @@ const UnlockPremiumContent = ({ onUnlockPremium }: UnlockPremiumProps) => {
       clearInterval(interval);
 
       if (option === "youtube") {
-        window.open("https://www.youtube.com/channel/UCxxxxxxxx", "_blank");
+        window.open(
+          `https://www.youtube.com/@moviehunt59?sub_confirmation=1
+`,
+          "_blank"
+        );
         await updateIsPremium(
           user?.primaryEmailAddress?.emailAddress || "Unknown"
         ); // Call the update function
       } else if (option === "github") {
-        window.open("https://github.com/yourusername/yourrepo", "_blank");
+        window.open("https://github.com/Adarsha59/saas-app-1", "_blank");
         await updateIsPremium(
           user?.primaryEmailAddress?.emailAddress || "Unknown"
         ); // Call the update function

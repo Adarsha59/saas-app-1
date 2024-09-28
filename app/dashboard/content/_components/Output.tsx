@@ -3,6 +3,7 @@ import "@toast-ui/editor/dist/toastui-editor.css"; // Importing the styles for t
 import { Editor } from "@toast-ui/react-editor"; // Importing the Toast UI Editor
 import { Button } from "@/components/ui/button"; // Importing Shadcn UI Button
 import { CopyIcon } from "@radix-ui/react-icons";
+import toast from "react-hot-toast";
 
 interface PROPS {
   aidata: string;
@@ -27,10 +28,12 @@ const Output = ({ aidata }: PROPS) => {
     navigator.clipboard
       .writeText(aidata)
       .then(() => {
-        alert("Editor content copied to clipboard!");
+        // Show a success message using a library like react-toastify
+        toast.success("Editor content copied to clipboard!");
       })
       .catch((err) => {
         console.error("Failed to copy content: ", err);
+        toast.error("Failed to copy content to clipboard.");
       });
   };
 

@@ -13,6 +13,7 @@ import { aiOutput } from "@/utils/Schema";
 import { TotalUsageContext } from "@/app/(context)/TotalCredit";
 import { useRouter } from "next/navigation";
 import { eq } from "drizzle-orm";
+import toast from "react-hot-toast";
 
 interface PROPS {
   params: {
@@ -90,6 +91,7 @@ const Page = (props: PROPS) => {
       const result = await chatSession.sendMessage(finalPrompt);
       const responseText = await result?.response.text(); // Await the response text
       setAiData(responseText);
+      toast.success("AI generated successfully");
 
       // Save data only if AI response exists
       if (responseText) {
@@ -97,6 +99,7 @@ const Page = (props: PROPS) => {
       }
     } catch (error) {
       console.error("Error generating AI content:", error);
+      toast.error("Error generating AI content");
     } finally {
       setLoading(false);
     }
@@ -112,7 +115,7 @@ const Page = (props: PROPS) => {
         createdAt: new Date().toISOString(),
         isPremium: "no", // Fetch user's premium status if available, otherwise default to 'no'
       });
-      console.log("Data saved successfully!");
+      // console.log("Data saved successfully!");
     } catch (error) {
       console.error("Error saving data:", error);
     }
