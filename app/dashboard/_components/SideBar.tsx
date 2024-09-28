@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleDarkMode, sidebarOpen }) => {
     { icon: FiInfo, text: "About", path: "/dashboard/about" },
     { icon: FaHistory, text: "History", path: "/dashboard/history" },
     { icon: FiSettings, text: "Settings", path: "/dashboard/setting" },
-    { icon: FiDollarSign, text: "Pricing", path: "/dashboard/price" },
+    { icon: FiDollarSign, text: "Pricing", path: "/dashboard/bill" },
   ];
   const path = usePathname();
 
