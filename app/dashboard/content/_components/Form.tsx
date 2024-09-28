@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea"; // Importing Shadcn UI Textarea
 import { Button } from "@/components/ui/button"; // Importing Shadcn UI Button
 import { Input } from "@/components/ui/input";
+import { LoaderPinwheel } from "lucide-react";
 
-const Form = ({ post, userInput }: any) => {
+const Form = ({ post, userInput, loading }: any) => {
   // State to manage input values
   const [formData, setFormData] = useState<any>({});
 
@@ -23,7 +24,7 @@ const Form = ({ post, userInput }: any) => {
   };
 
   return (
-    <div className="w-full dark:bg-yellow-300 max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden backdrop-blur-lg bg-opacity-30 border border-gray-200">
+    <div className="w-full dark:bg-yellow-300 max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden  border border-gray-200">
       <div className="flex items-center justify-center min-h-28 bg-gradient-to-r from-blue-500 to-blue-300">
         {" "}
         {/* Adjusted height */}
@@ -55,7 +56,7 @@ const Form = ({ post, userInput }: any) => {
                   name={field.name}
                   required={field.required}
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200 p-4 placeholder-gray-400 bg-white/70 backdrop-blur-md"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200 p-4 placeholder-gray-400 bg-white/70 "
                   rows={4}
                   placeholder={`Enter your ${field.label.toLowerCase()}`}
                 />
@@ -65,7 +66,7 @@ const Form = ({ post, userInput }: any) => {
                   name={field.name}
                   required={field.required}
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200 p-4 placeholder-gray-400 bg-white/70 backdrop-blur-md"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200 p-4 placeholder-gray-400 bg-white/70 "
                   placeholder={`Enter your ${field.label.toLowerCase()}`}
                 />
               )}
@@ -73,8 +74,10 @@ const Form = ({ post, userInput }: any) => {
           ))}
           <Button
             type="submit"
+            disabled={loading}
             className="w-full mt-4 bg-blue-600 text-white rounded-lg py-3 transition duration-200 transform hover:bg-blue-700 hover:scale-105 shadow-lg"
           >
+            {loading && <LoaderPinwheel className="spain-loading" />}
             Generate
           </Button>
         </form>

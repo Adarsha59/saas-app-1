@@ -24,6 +24,12 @@ export default [
       },
       {
         label: "Select Image URL",
+        field: "imageUrls",
+        name: "imageUrls  ",
+        required: false,
+      },
+      {
+        label: "Select Image URL",
         field: "imageUrl",
         name: "imageUrl",
         required: false,
