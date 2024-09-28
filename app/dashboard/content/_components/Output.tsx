@@ -21,12 +21,11 @@ const Output = ({ aidata }: PROPS) => {
   // Function to copy content to clipboard
   const copyToClipboard = () => {
     // Get the editor content (HTML or Markdown)
-    const editorInstance = editorRef.current.getInstance();
-    const content = editorInstance.getMarkdown(); // or use `getHTML()` for HTML output
+    // or use `getHTML()` for HTML output
 
     // Copy the content to the clipboard
     navigator.clipboard
-      .writeText(content)
+      .writeText(aidata)
       .then(() => {
         alert("Editor content copied to clipboard!");
       })

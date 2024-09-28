@@ -7,4 +7,5 @@ export const aiOutput = pgTable("aiOutput", {
   slug: varchar("slug").notNull(),
   createdBy: varchar("email").notNull(),
   createdAt: varchar("createdAt"),
+  isPremium: varchar("isPremium").default("no"), // Premium status, defaults to 'no'
 });

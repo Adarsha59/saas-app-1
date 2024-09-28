@@ -1,45 +1,53 @@
+"use client";
 import { db } from "@/utils/dbconnect";
 import { aiOutput } from "@/utils/Schema";
 import { useUser } from "@clerk/nextjs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { eq } from "drizzle-orm";
+import { TotalUsageContext } from "@/app/(context)/TotalCredit";
 
 const TotalUsage = () => {
-  const totalCredits = 1000; // This can be dynamic based on your plan
+  const totalCredits = 8000; // This can be dynamic based on your plan
   const { user } = useUser();
-  const [usedCredits, setUsedCredits] = useState(0);
+  const { totalUsage, settotalUsage } = useContext(TotalUsageContext);
+  const [usedCredits, setUsedCredits] = useState(0); // Initialize usedCredits with 0
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsageData = async () => {
-      // Declare async here
       if (user && user.primaryEmailAddress?.emailAddress) {
-        // Ensure emailAddress is defined
         try {
-          // Make sure to adapt your query to your database schema
-          const data = await db.select().from(aiOutput).where(
-            eq(aiOutput.createdBy, user.primaryEmailAddress.emailAddress) // Remove optional chaining here
-          );
+          // Log user email to ensure it's available
+          //   console.log("User email:", user.primaryEmailAddress.emailAddress);
 
-          // Assuming data is an array and we want the total used credits
+          const data = await db
+            .select()
+            .from(aiOutput)
+            .where(
+              eq(aiOutput.createdBy, user.primaryEmailAddress.emailAddress)
+            );
+
+          // Log the fetched data to check if it's correct
+          //   console.log("Fetched data:", data);
+
           const totalUsed = data.reduce((total, response) => {
             if (response.aiResponse) {
-              // Split by spaces and count words
               const wordCount = response.aiResponse.split(/\s+/).length;
               return total + wordCount;
             }
             return total;
           }, 0);
 
-          //   console.log("Total used credits (word size):", totalUsed);
+          //   console.log("Total used credits (word count):", totalUsed);
           setUsedCredits(totalUsed);
+          settotalUsage(totalUsed);
         } catch (error) {
           console.error("Error fetching usage data:", error);
         } finally {
           setLoading(false);
         }
       } else {
-        setLoading(false); // Set loading to false if user or emailAddress is not defined
+        setLoading(false);
       }
     };
 
