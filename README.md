@@ -66,7 +66,7 @@ If a user runs out of credits, they can either wait for daily credit refresh (if
 
 ### Discover AI Prompts with Gemini AI
 
-Gemini AI powers the heart of this platform, allowing users to explore a wide array of AI prompts, tools, and resources. Key features include:
+Gemini AI powers the heart of this platform, allowing users to explore a wide array of AI prompts, tools, and resources. Key features includes:
 
 - **Prompt Generation**: AI-driven prompts for content creation, coding, or creative workflows.
 - **AI Tools**: Access tools for text generation, image creation, and more.
