@@ -1,19 +1,27 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useUser } from "@clerk/nextjs";
-import Image from "next/image";
+import { useUser } from "@clerk/nextjs"; // Remove UserResource import
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+// Define a type that reflects the user structure you need
+interface AuthUser {
+  firstName: string;
+  // Add other properties you may need
+}
+
 export default function Home() {
-  const { user }: any = useUser();
-  const [loading, setLoading] = useState(true);
-  const [auth, setAuth] = useState<any>(null);
+  const { user } = useUser();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [auth, setAuth] = useState<AuthUser | null>(null); // Use your defined AuthUser type
 
   useEffect(() => {
     if (user) {
-      setAuth(user);
+      setAuth({
+        firstName: user.firstName || "", // Ensure to provide a fallback
+        // Add other properties here if needed
+      });
     }
     setLoading(false);
   }, [user]);

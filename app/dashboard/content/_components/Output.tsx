@@ -10,7 +10,7 @@ interface PROPS {
 }
 
 const Output = ({ aidata }: PROPS) => {
-  const editorRef = useRef<any>(null); // Create a ref for the editor
+  const editorRef = useRef<Editor>(null); // Create a ref for the editor with correct type
 
   // Set the aidata into the editor when it changes
   useEffect(() => {
@@ -21,14 +21,10 @@ const Output = ({ aidata }: PROPS) => {
 
   // Function to copy content to clipboard
   const copyToClipboard = () => {
-    // Get the editor content (HTML or Markdown)
-    // or use `getHTML()` for HTML output
-
     // Copy the content to the clipboard
     navigator.clipboard
       .writeText(aidata)
       .then(() => {
-        // Show a success message using a library like react-toastify
         toast.success("Editor content copied to clipboard!");
       })
       .catch((err) => {
@@ -38,7 +34,7 @@ const Output = ({ aidata }: PROPS) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden  bg-opacity-30 border border-gray-200 p-4">
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden bg-opacity-30 border border-gray-200 p-4">
       <div className="flex flex-row justify-between items-center h-full px-4 mb-5">
         <h2 className="text-2xl font-bold text-blue-700 text-left">
           AI GENERATED Output
@@ -61,7 +57,6 @@ const Output = ({ aidata }: PROPS) => {
         minHeight="300px"
         height="600px"
         initialEditType="wysiwyg"
-        // initialEditType="markdown"
         useCommandShortcut={true}
       />
 

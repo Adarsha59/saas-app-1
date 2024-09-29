@@ -20,11 +20,12 @@ const Layout = ({
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const [totalUsage, settotalUsage] = useState<Number>(0);
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const [totalUsage, setTotalUsage] = useState<number>(0);
+
   return (
-    <TotalUsageContext.Provider value={{ totalUsage, settotalUsage }}>
+    <TotalUsageContext.Provider value={{ totalUsage, setTotalUsage }}>
       <div
         className={`flex ${
           darkMode ? "bg-gray-900" : "bg-gray-100"
@@ -42,9 +43,7 @@ const Layout = ({
           <NavBar toggleSidebar={toggleSidebar} />
 
           <main
-            className={`flex-1 bg-gray-100 p-6 ${
-              darkMode ? "bg-gray-900" : "bg-gray-100"
-            }`}
+            className={`flex-1 p-6 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}
           >
             {children}
           </main>
@@ -53,9 +52,14 @@ const Layout = ({
             className="lg:hidden fixed bottom-4 right-4 bg-indigo-600 text-white p-3 rounded-full shadow-lg"
             onClick={toggleSidebar}
           >
-            {sidebarOpen ? "Close Menu" : ""}
+            {sidebarOpen ? "Close Menu" : "Open Menu"}
           </button>
-          <SideBar toggleDarkMode={toggleDarkMode} sidebarOpen={sidebarOpen} />
+          {sidebarOpen && (
+            <SideBar
+              toggleDarkMode={toggleDarkMode}
+              sidebarOpen={sidebarOpen}
+            />
+          )}
         </div>
       </div>
     </TotalUsageContext.Provider>

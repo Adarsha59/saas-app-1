@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import { FaHistory } from "react-icons/fa";
 import { FiHome, FiInfo, FiSettings, FiDollarSign } from "react-icons/fi";
 import TotalUsage from "./TotalUsage";
@@ -20,9 +20,6 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleDarkMode, sidebarOpen }) => {
   ];
   const path = usePathname();
 
-  useEffect(() => {
-    console.log(path);
-  }, []);
   return (
     <aside
       className={`fixed left-0 top-0 z-40 h-screen w-64 transform transition-transform duration-300 ease-in-out ${
@@ -53,12 +50,12 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleDarkMode, sidebarOpen }) => {
           <br />
           <TotalUsage />
         </nav>
-        {/* <button
+        <button
           onClick={toggleDarkMode}
-          className="mt-auto p-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
+          className="hidden mt-auto p-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
         >
           Toggle Dark Mode
-        </button> */}
+        </button>
       </div>
     </aside>
   );

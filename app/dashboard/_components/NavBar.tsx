@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { FiSearch } from "react-icons/fi";
 import { UserButton } from "@clerk/nextjs";
 
 // Define a more descriptive interface name for props

@@ -5,31 +5,26 @@ import { IoMdUnlock } from "react-icons/io";
 import { db } from "@/utils/dbconnect";
 import { aiOutput } from "@/utils/Schema";
 import { useUser } from "@clerk/nextjs";
-import { eq } from "drizzle-orm"; // Ensure eq is imported for equality checks
+import { eq } from "drizzle-orm";
 
-interface UnlockPremiumProps {
-  onUnlockPremium: (status: string) => void; // Callback to notify parent of premium status
-}
-
-const UnlockPremiumContent = ({ onUnlockPremium }: UnlockPremiumProps) => {
+const UnlockPremiumContent = () => {
   const { user } = useUser();
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
-  const [premiumUnlocked, setPremiumUnlocked] = useState(false);
 
   const updateIsPremium = async (userEmail: string) => {
     try {
-      const re = await db
+      await db
         .update(aiOutput)
-        .set({ isPremium: "yes" }) // Set isPremium to 'yes'
-        .where(eq(aiOutput.createdBy, userEmail)); // Use the eq function for the condition
-      console.log("isPremium updated to 'yes'!", re);
+        .set({ isPremium: "yes" })
+        .where(eq(aiOutput.createdBy, userEmail));
+      console.log("isPremium updated to 'yes'!");
     } catch (error) {
       console.error("Error updating isPremium:", error);
     }
   };
 
-  const handleUnlock = async (option: any) => {
+  const handleUnlock = async (option: string) => {
     setError("");
     setProgress(0);
 
@@ -48,18 +43,17 @@ const UnlockPremiumContent = ({ onUnlockPremium }: UnlockPremiumProps) => {
 
       if (option === "youtube") {
         window.open(
-          `https://www.youtube.com/@moviehunt59?sub_confirmation=1
-`,
+          "https://www.youtube.com/@moviehunt59?sub_confirmation=1",
           "_blank"
         );
         await updateIsPremium(
           user?.primaryEmailAddress?.emailAddress || "Unknown"
-        ); // Call the update function
+        );
       } else if (option === "github") {
         window.open("https://github.com/Adarsha59/saas-app-1", "_blank");
         await updateIsPremium(
           user?.primaryEmailAddress?.emailAddress || "Unknown"
-        ); // Call the update function
+        );
       } else {
         setError("An error occurred. Please try again.");
       }
@@ -107,7 +101,7 @@ const UnlockPremiumContent = ({ onUnlockPremium }: UnlockPremiumProps) => {
           </div>
         )}
 
-        {progress === 100 && premiumUnlocked && (
+        {progress === 100 && (
           <div className="mt-8 text-center text-green-600 font-semibold">
             <IoMdUnlock className="inline-block mr-2 text-2xl" />
             Content unlocked! Enjoy your premium access.
@@ -124,13 +118,21 @@ const UnlockPremiumContent = ({ onUnlockPremium }: UnlockPremiumProps) => {
   );
 };
 
+interface UnlockOptionProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  buttonText: string;
+  onClick: () => void;
+}
+
 const UnlockOption = ({
   icon,
   title,
   description,
   buttonText,
   onClick,
-}: any) => (
+}: UnlockOptionProps) => (
   <div className="flex flex-col items-center text-center w-full md:w-64">
     <div className="text-5xl mb-4">{icon}</div>
     <h2 className="text-2xl font-semibold mb-2 text-gray-800">{title}</h2>
